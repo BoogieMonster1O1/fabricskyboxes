@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class HudMixin {
     @Inject(method = "render", at = @At("TAIL"))
     public void renderDevOverlay(MatrixStack matrices, float tickDelta, CallbackInfo ci) {
-        if (DeveloperTools.getDevelopSkybox() != null && DeveloperTools.devMode)
-            MinecraftClient.getInstance().textRenderer.draw(matrices, DeveloperTools.getDevelopSkybox().name, 10, 10, 16777215);
+        if (DeveloperTools.isDevMode())
+            MinecraftClient.getInstance().textRenderer.draw(matrices, "Current Skybox: " + DeveloperTools.getDevelopSkybox().name, 10, 10, 16777215);
     }
 }

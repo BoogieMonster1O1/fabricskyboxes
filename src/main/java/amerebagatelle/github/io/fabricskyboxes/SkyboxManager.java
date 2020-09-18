@@ -1,5 +1,6 @@
 package amerebagatelle.github.io.fabricskyboxes;
 
+import amerebagatelle.github.io.fabricskyboxes.developer.DeveloperTools;
 import amerebagatelle.github.io.fabricskyboxes.mixin.skybox.WorldRendererAccess;
 import amerebagatelle.github.io.fabricskyboxes.skyboxes.AbstractSkybox;
 import net.minecraft.client.util.math.MatrixStack;
@@ -37,6 +38,11 @@ public class SkyboxManager {
     }
 
     public void renderSkyboxes(WorldRendererAccess worldRendererAccess, MatrixStack matrices, float tickDelta) {
+        if (DeveloperTools.isDevMode()) {
+            DeveloperTools.getDevelopSkybox().getAlpha();
+            DeveloperTools.getDevelopSkybox().render(worldRendererAccess, matrices, tickDelta);
+            return;
+        }
         for (AbstractSkybox skybox : skyboxes) {
             if (!activeSkyboxes.contains(skybox) && skybox.alpha >= 0.1) {
                 activeSkyboxes.add(skybox);
