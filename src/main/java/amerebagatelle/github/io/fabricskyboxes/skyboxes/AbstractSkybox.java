@@ -22,6 +22,7 @@ import java.util.ArrayList;
 public abstract class AbstractSkybox {
     public float alpha;
 
+    public String name;
     public int startFadeIn = 0;
     public int endFadeIn = 0;
     public int startFadeOut = 0;

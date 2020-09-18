@@ -17,7 +17,7 @@ public class SkyboxManager {
 
     private boolean decorationsRendered;
 
-    private static final ArrayList<AbstractSkybox> skyboxes = new ArrayList<>();
+    private final ArrayList<AbstractSkybox> skyboxes = new ArrayList<>();
     private final LinkedList<AbstractSkybox> activeSkyboxes = new LinkedList<>();
 
     public void addSkybox(AbstractSkybox skybox) {
@@ -56,6 +56,10 @@ public class SkyboxManager {
             decorationsRendered = true;
             return false;
         }
+    }
+
+    public ArrayList<AbstractSkybox> getSkyboxes() {
+        return skyboxes;
     }
 
     public static SkyboxManager getInstance() {

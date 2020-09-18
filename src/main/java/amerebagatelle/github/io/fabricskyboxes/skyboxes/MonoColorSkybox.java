@@ -13,9 +13,9 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
 
 public class MonoColorSkybox extends AbstractSkybox {
-    private final float red;
-    private final float blue;
-    private final float green;
+    public final float red;
+    public final float blue;
+    public final float green;
 
     public MonoColorSkybox(float red, float blue, float green) {
         this.red = red;

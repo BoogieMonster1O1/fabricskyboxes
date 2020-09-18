@@ -84,6 +84,7 @@ public class SkyboxResourceLoader {
         } catch (NullPointerException e) {
             throw new NullPointerException("Could not get a required field.");
         }
+        skybox.name = id.getPath().substring(id.getPath().lastIndexOf("/") + 1);
         // alpha changing
         skybox.maxAlpha = objectWrapper.getOptionalFloat("maxAlpha", 1f);
         skybox.transitionSpeed = objectWrapper.getOptionalFloat("transitionSpeed", 1f);
