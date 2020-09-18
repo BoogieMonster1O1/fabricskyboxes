@@ -1,6 +1,7 @@
 package amerebagatelle.github.io.fabricskyboxes.gui.widget;
 
 import amerebagatelle.github.io.fabricskyboxes.SkyboxManager;
+import amerebagatelle.github.io.fabricskyboxes.developer.DeveloperTools;
 import amerebagatelle.github.io.fabricskyboxes.skyboxes.AbstractSkybox;
 import amerebagatelle.github.io.fabricskyboxes.skyboxes.MonoColorSkybox;
 import amerebagatelle.github.io.fabricskyboxes.skyboxes.TexturedSkybox;
@@ -33,12 +34,17 @@ public class SkyboxListWidget extends FSListWidget<SkyboxListWidget.Entry> {
         return width - 10;
     }
 
-    public static class SkyboxEntry extends SkyboxListWidget.Entry {
-        public AbstractSkybox skybox;
+    public void selectEntry(AbstractSkybox skybox, Entry entry) {
+        setSelected(entry);
+        ensureVisible(entry);
+        DeveloperTools.setDevelopSkybox(skybox);
+    }
+
+    public class SkyboxEntry extends SkyboxListWidget.Entry {
         public boolean isTextured;
 
         public SkyboxEntry(AbstractSkybox skybox) {
-            this.skybox = skybox;
+            super(skybox);
             isTextured = skybox instanceof TexturedSkybox;
         }
 
@@ -46,20 +52,40 @@ public class SkyboxListWidget extends FSListWidget<SkyboxListWidget.Entry> {
         public void render(MatrixStack matrices, int index, int y, int x, int entryWidth, int entryHeight, int mouseX, int mouseY, boolean hovered, float tickDelta) {
             TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
             if (isTextured) {
-                textureManager.bindTexture(((TexturedSkybox) skybox).TEXTURE_TOP);
+                textureManager.bindTexture(((TexturedSkybox) getSkybox()).TEXTURE_TOP);
                 RenderUtils.drawTexturedBox(x, y, entryHeight, entryHeight, 0, 0, 1, 1);
             } else {
-                MonoColorSkybox monoColorSkybox = (MonoColorSkybox) skybox;
+                MonoColorSkybox monoColorSkybox = (MonoColorSkybox) getSkybox();
                 RenderUtils.drawBox(x, y, entryHeight, entryHeight, monoColorSkybox.red, monoColorSkybox.blue, monoColorSkybox.green, 1f);
             }
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
-            drawStringWithShadow(matrices, textRenderer, skybox.name, entryHeight + 20, y + 10, 16777215);
+            drawStringWithShadow(matrices, textRenderer, getSkybox().name, entryHeight + 20, y + 10, 16777215);
             drawStringWithShadow(matrices, textRenderer, isTextured ? "Textured" : "MonoColor", entryHeight + 20, y + 20, 16777215);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            SkyboxListWidget.this.selectEntry(getSkybox(), this);
+            return false;
+        }
+
+        @Override
+        public boolean mouseReleased(double mouseX, double mouseY, int button) {
+            return false;
         }
     }
 
     @Environment(EnvType.CLIENT)
     public abstract static class Entry extends AlwaysSelectedEntryListWidget.Entry<SkyboxListWidget.Entry> {
+        private final AbstractSkybox skybox;
+
+        public Entry(AbstractSkybox skybox) {
+            this.skybox = skybox;
+        }
+
+        public AbstractSkybox getSkybox() {
+            return skybox;
+        }
     }
 }
