@@ -47,7 +47,7 @@ public class SkyboxListWidget extends FSListWidget<SkyboxListWidget.Entry> {
             TextureManager textureManager = MinecraftClient.getInstance().getTextureManager();
             if (isTextured) {
                 textureManager.bindTexture(((TexturedSkybox) skybox).TEXTURE_TOP);
-                RenderUtils.drawTexturedBox(x, y, entryHeight, entryHeight);
+                RenderUtils.drawTexturedBox(x, y, entryHeight, entryHeight, 0, 0, 1, 1);
             } else {
                 MonoColorSkybox monoColorSkybox = (MonoColorSkybox) skybox;
                 RenderUtils.drawBox(x, y, entryHeight, entryHeight, monoColorSkybox.red, monoColorSkybox.blue, monoColorSkybox.green, 1f);
@@ -55,6 +55,7 @@ public class SkyboxListWidget extends FSListWidget<SkyboxListWidget.Entry> {
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
 
             drawStringWithShadow(matrices, textRenderer, skybox.name, entryHeight + 20, y + 10, 16777215);
+            drawStringWithShadow(matrices, textRenderer, isTextured ? "Textured" : "MonoColor", entryHeight + 20, y + 20, 16777215);
         }
     }
 

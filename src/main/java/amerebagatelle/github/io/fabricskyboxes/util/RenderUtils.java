@@ -31,17 +31,17 @@ public class RenderUtils {
         GlStateManager.disableBlend();
     }
 
-    public static void drawTexturedBox(float x, float y, float width, float height) {
+    public static void drawTexturedBox(float x, float y, float width, float height, float u, float v, float textureWidth, float textureHeight) {
         GlStateManager.enableTexture();
         GlStateManager.enableBlend();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder builder = tessellator.getBuffer();
 
-        builder.begin(7, VertexFormats.POSITION);
-        builder.vertex(x, y, 0.0).next();
-        builder.vertex(x, y + height, 0.0).next();
-        builder.vertex(x + width, y + height, 0.0).next();
-        builder.vertex(x + width, y, 0.0).next();
+        builder.begin(7, VertexFormats.POSITION_TEXTURE);
+        builder.vertex(x, y, 0.0).texture(u, v).next();
+        builder.vertex(x, y + height, 0.0).texture(u + textureWidth, v).next();
+        builder.vertex(x + width, y + height, 0.0).texture(u + textureWidth, v + textureHeight).next();
+        builder.vertex(x + width, y, 0.0).texture(u, v + textureHeight).next();
 
         tessellator.draw();
 
